@@ -1,0 +1,16 @@
+#!/bin/bash
+
+IFACE_STA=wlan0sta
+
+case "$1" in
+  HOTSPOT)
+    # In AP mode, create a companion managed interface for Wi-Fi scans.
+    iw phy phy0 interface add "$IFACE_STA" type managed 2>/dev/null || true
+    ip link set "$IFACE_STA" up
+    ;;
+  CONNECTING|CONNECTED)
+    # Remove the temporary interface before activating the client connection.
+    ip link set "$IFACE_STA" down 2>/dev/null || true
+    iw dev "$IFACE_STA" del 2>/dev/null || true
+    ;;
+esac
