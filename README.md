@@ -1,6 +1,6 @@
 # OPiZero Serial Bridge: A Headless SBC for Remote MCU Programming over RFC2217
 
-This project documents how to configure an ARM single-board computer (SBC) as a network-accessible serial programmer and console using RFC2217. The reference platform is an Orange Pi Zero running Armbian, but most of the setup can be adapted to other Linux SBCs.
+This project documents how to configure an ARM single-board computer (SBC) as a network-accessible serial programmer and console using RFC2217. The reference platform is an Orange Pi Zero running Armbian, but most of the setup can be adapted to other Linux SBCs, like RaspberryPi.
 
 The system is intended for remote flashing and serial debugging of Espressif MCUs with `esptool`, where OTA updates are unsuitable and the programming workstation is not physically near the target device.
 
@@ -34,3 +34,15 @@ An optional SPI TFT display can show connection state, IP addresses, SSID, and R
 The reference configuration is designed for a trusted LAN. RFC2217 exposes a serial device and can control reset or boot signals; do not expose it directly to the Internet. Restrict access with network segmentation, a VPN, a firewall, or equivalent controls.
 
 Telegram credentials, Wi-Fi credentials, target serial devices, interface names, GPIO pins, and package architecture must be adapted to the target system.
+
+
+## TODO
+
+- better OliveTin configurations
+- display more info on TFT Display
+- add a physical button to reset WiFi connection and return in AP mode
+- add a physical button to shutdown the system 
+- more notifications via Telegram Bot
+- add commands to Telegram Bot to start/stop services and scripts
+- more tests on serial debugging
+- design and print a case 
