@@ -2,6 +2,11 @@
 
 [OliveTin](https://github.com/OliveTin/OliveTin) provides a web UI to run controlled administrative actions on the SBC. In this project it starts and stops the RFC2217 server, lists USB serial ports, disconnects Wi-Fi, and provides basic network and storage diagnostics. It avoids keeping the RFC2217 service permanently active and is an alternative to SSH for routine operations.
 
+![OliveTin Dashboard General](OliveTin1.png)
+
+![OliveTin Dashboard Espressif](OliveTin2.png)
+
+
 ## Install OliveTin
 
 Download the release package that matches the SBC architecture. The Orange Pi Zero reference platform requires the ARMv7 package.
