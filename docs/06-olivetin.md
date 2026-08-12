@@ -54,135 +54,13 @@ cp /etc/OliveTin/config.yaml /etc/OliveTin/config.yaml.bak
 editor /etc/OliveTin/config.yaml
 ```
 
+
+
 The following is the current reference configuration. It listens on port `1337`, uses the Catppuccin theme, and groups serial actions in the `Espressif` dashboard.
 
-```yaml
-listenAddressSingleHTTPFrontend: 0.0.0.0:1337
-logLevel: "INFO"
-themeName: catppuccin-mocha-olivetin
-pageTitle: OrangePi-Zero
+[config.yaml](../OliveTinConfig/config.yaml)
 
-actions:
-  - title: Disconnect WiFi
-    id: wifi_disconnect
-    shell: nmcli connection down $(cat /run/network-state/connection 2>/dev/null)
-    icon: '<img src="custom-webui/icons/wifi_disconnect.png" />'
-    onclick: execution-dialog
 
-  - title: Disconnect and forget WiFi
-    id: wifi_delete
-    shell: nmcli connection delete $(cat /run/network-state/connection 2>/dev/null)
-    icon: '<img src="custom-webui/icons/wifi_disconnect.png" />'
-    justification: " "
-    arguments:
-      - type: confirmation
-        title: Are you sure?!
-    onclick: execution-dialog
-
-  - title: Check disk space
-    icon: disk
-    shell: df -h /
-    onclick: execution-dialog
-
-  - title: Ping the Internet
-    shell: ping -c 3 1.1.1.1
-    icon: ping
-    onclick: execution-dialog
-    execOnStartup: true
-
-  - title: Ping host
-    id: ping_host
-    shell: ping {{ host }} -c {{ count }}
-    icon: ping
-    timeout: 100
-    onclick: history
-    execOnWebhook:
-      - matchHeaders:
-          X-OliveTin-Demo: ping-host
-    arguments:
-      - name: host
-        title: Host
-        type: ascii_identifier
-        default: example.com
-        description: The host to ping
-      - name: count
-        title: Count
-        type: int
-        default: 3
-        description: Number of packets to send
-
-  - title: Setup easy SSH
-    icon: ssh
-    shell: olivetin-setup-easy-ssh
-    onclick: execution-dialog
-    execOnWebhook:
-      - matchQuery:
-          demo: setup-ssh
-
-  - title: Start RFC2217 Server
-    id: rfc2217_start
-    shell: nohup /opt/custom-env/bin/esp_rfc2217_server -p 4000 /dev/{{ port }} > /var/log/esp_rfc2217.log 2>&1 &
-    arguments:
-      - name: port
-        description: Select the USB port to use
-        choices:
-          - title: ttyUSB0
-            value: ttyUSB0
-          - title: ttyUSB1
-            value: ttyUSB1
-          - title: ttyUSB2
-            value: ttyUSB2
-          - title: ttyACM0
-            value: ttyACM0
-          - title: ttyACM1
-            value: ttyACM1
-          - title: ttyACM2
-            value: ttyACM2
-    timeout: 10
-    icon: '<img src="custom-webui/icons/connected.png" />'
-    onclick: execution-dialog
-
-  - title: Stop RFC2217 Server
-    id: rfc2217_stop
-    shell: killall esp_rfc2217_server
-    icon: '<img src="custom-webui/icons/disconnected.png" />'
-
-  - title: List USB ports
-    icon: '<img src="custom-webui/icons/usb.png" />'
-    shell: ls -l /dev/tty[AU]*
-    onclick: execution-dialog
-
-dashboards:
-  - title: Espressif
-    category: mcu
-    contents:
-      - title: Start RFC2217 Server
-      - title: Stop RFC2217 Server
-      - title: List USB ports
-
-authRequireGuestsToLogin: false
-authLocalUsers:
-  enabled: true
-
-defaultPolicy:
-  showDiagnostics: true
-  showLogList: true
-
-defaultPermissions:
-  view: true
-  exec: true
-  logs: true
-
-accessControlLists:
-  - name: admin_acl
-    matchUsergroups: ["admins"]
-    policy:
-      showDiagnostics: true
-    permissions:
-      view: true
-      exec: true
-      logs: true
-```
 
 Reload the configuration after every change:
 
@@ -210,7 +88,10 @@ Before exposing OliveTin beyond a trusted LAN, require login, define at least on
 
 ## TODO
 
-- Better actions to start/stop RFC2217 Server
-- Look for a way to display service status in dashboard
+- Better actions to start/stop RFC2217 and ser2net Server
+- kill current server before start new one, but don't display error messages
+- Look for a way to display server status in dashboard
+- refresh entities seems not working.
 - Add login auth 
-- Start RFC2217 server only on available USB port
+- Multiple servers on multiple ports?
+

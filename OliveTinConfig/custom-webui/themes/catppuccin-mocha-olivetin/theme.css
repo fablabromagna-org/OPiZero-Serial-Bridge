@@ -1,0 +1,450 @@
+:root {
+  --color-primary: #11111b;
+  --color-accent: #fab387;
+  --color-background: #1e1e2e;
+  --color-font: #cdd6f4;
+  --color-red: #f38ba8;
+  --color-green: #a6e3a1;
+  --color-peach: #fab387;
+  --color-mauve: #cba6f7;
+  --color-sky: #89dceb;
+  --color-surface-2: #585b70;
+  --color-surface-2-7: rgba(88,91,112,0.7);
+  --color-mantle: #181825;
+  --color-overlay-0: #6c7086;
+}
+
+body{
+	background-color: var(--color-background);
+	color: var(--color-font);
+}
+
+header{
+  background-color: var(--color-background);
+}
+
+footer{
+	color: var(--color-font)
+}
+
+footer a{
+	color: var(--color-accent)
+}
+
+a{
+  color: var(--color-font);
+  text-decoration: none;
+  margin-bottom: 5px;
+}
+
+a:hover{
+  color: var(--color-accent);
+}
+
+a:focus {
+  color: var(--color-background);
+  background-color: var(--color-accent);
+  outline: 0;
+  border-radius: 2px;
+}
+
+/* FIELDSET */
+
+legend {
+  text-transform: uppercase;
+	font-weight: bold;
+}
+
+/* OLIVETIN BUTTONS */
+
+action-button button {
+	background-color: var(--color-primary);
+	border: none;
+	color: var(--color-font);
+	font-weight: bold;
+	text-transform: uppercase;
+	box-shadow: 0px 4px 5px 1px rgba(0, 0, 0, .2);
+}
+
+action-button button:focus {
+	border: none;
+}
+
+action-button button:focus {
+	box-shadow: 0 0 10px rgba(0, 0, 0, .2);
+}
+
+div.display {
+	background-color: var(--color-mantle);
+	border: none;
+	color: var(--color-font);
+	font-weight: bold;
+	text-transform: uppercase;
+	box-shadow: 0px 4px 5px 1px rgba(0, 0, 0, .2);
+}
+
+div.display > strong {
+  color: var(--color-accent)
+}
+
+span.icon{
+	color: var(--color-accent);
+}
+
+/* NAVBAR */
+
+nav.sidebar{
+	box-shadow: 0px 4px 5px 3px rgba(0, 0, 0, .2);
+	background-color: var(--color-primary);
+	color: var(--color-font);
+	font-weight: bold;
+	text-transform: uppercase;
+}
+
+nav.sidebar a{
+	color: var(--color-font);
+}
+
+nav.sidebar ul li {
+  border-bottom: none;
+}
+
+nav ul li a:hover{
+	background-color: var(--color-accent);
+	color: var(--color-background);
+}
+
+nav ul li a:focus{
+	background-color: var(--color-accent);
+	color: var(--color-background);
+  outline: 0;
+}
+
+nav ul li a.selected{
+  background-color: var(--color-surface-2);
+  color: var(--color-background);
+}
+
+#sidebar-toggler-button{
+	color: var(--color-background);
+  background-color: var(--color-accent);
+  border: none;
+  box-shadow: 0px 4px 5px 1px rgba(0, 0, 0, .2);
+	border-radius: 10%;
+}
+
+#sidebar-toggler-button:hover, #sidebar-toggler-button:focus {
+	color: var(--color-primary);
+  outline: 3px solid var(--color-font);
+}
+
+h1 a, h1 a:visited{
+	color: var(--color-font);
+	font-weight: bold;
+	text-decoration: none;
+}
+
+/* POPUPS */
+
+form div.wrapper{
+  background-color: transparent;
+}
+
+#argument-popup{
+  background-color: var(--color-primary);
+  color: var(--color-surface-2);
+  border-radius: 25px;
+}
+
+#execution-results-popup{
+	background-color: var(--color-primary);
+  color: var(--color-surface-2);
+  border-radius: 25px;
+}
+
+pre#execution-dialog-stdout{
+	border: 1px solid var(--color-font);
+}
+
+select {
+	background-color: var(--color-accent);
+	border: none;
+	color: var(--color-background);
+}
+
+/* UI BUTTONS */
+
+button, input[type="submit"]{
+  color: var(--color-font);
+  background-color: var(--color-primary);
+  font-weight: bold;
+  text-transform: uppercase;
+  border: 3px solid var(--color-font);
+  border-radius: 5px;
+	box-shadow: 0 0 6px rgba(0, 0, 0, .7);
+}
+
+button:hover, button:focus, input[type="submit"]:hover{
+  outline: 3px solid var(--color-accent);
+	box-shadow: 0 0 10px rgba(0, 0, 0, .3);
+}
+
+button:disabled, input[type="submit"]:disabled{
+  color: var(--color-surface-2);
+  background-color: var(--color-dark);
+}
+
+button:hover{
+  color: var(--color-font);
+  background-color: var(--color-overlay-0);
+}
+
+/* START BUTTON */
+
+input[name="start"]:hover{
+  color: var(--color-background);
+  background-color: var(--color-accent);
+}
+
+input[name="start"]:disabled{
+  color: var(--color-surface-2);
+  background-color: var(--color-dark);
+}
+
+/* CANCEL BUTTON */
+
+button[name="cancel"]:hover{
+  color: var(--color-background);
+  background-color: var(--color-red);
+}
+
+/* KILL BUTTON */
+
+button#execution-dialog-kill-action:hover{
+  color: var(--color-background);
+  background-color: var(--color-red);
+}
+
+button#execution-dialog-kill-action:disabled{
+  color: var(--color-surface-2);
+  background-color: var(--color-dark);
+}
+
+/* CLOSE BUTTON */
+
+button[title=Close]:hover{
+  color: var(--color-background);
+  background-color: var(--color-peach);
+}
+
+/* RESIZE BUTTON */
+
+button#execution-dialog-toggle-size:hover{
+  color: var(--color-background);
+  background-color: var(--color-accent);
+}
+
+/* LOGS */
+
+div.toolbar{
+	background-color: var(--color-background);
+	border: none;
+}
+
+table{
+	background-color: var(--color-background);
+	color: var(--color-primary);
+	border: none;
+	box-shadow: none;
+}
+
+tr.log-row:nth-child(odd) {
+	background-color: var(--color-background);
+	color: var(--color-primary);
+	border: none;
+}
+tr.log-row:nth-child(even), tr {
+	background-color: var(--color-primary);
+	color: var(--color-font);
+	border: none;
+}
+
+tr:hover td{
+	background-color: var(--color-surface-2);
+	color: var(--color-font);
+}
+
+tr:hover td a{
+	color: var(--color-background);
+  text-decoration-style: solid;
+  text-decoration-color: var(--color-background);
+}
+
+tr:hover td a:hover{
+  color: var(--color-font);
+  text-decoration-style: solid;
+  text-decoration-color: var(--color-font);
+}
+
+tr:hover td span.icon{
+	color: var(--color-background);
+}
+
+td, th{
+	background-color: transparent;
+	border: none;
+	color: var(--color-font);
+	box-shadow: none;
+}	
+
+td a{
+	color: var(--color-accent);
+}	
+
+input {
+	background-color: var(--color-accent);
+	color: var(--color-background);
+  font-weight: bold;
+  border-radius: 3px;
+}
+
+input:focus { 
+  outline: 2px solid var(--color-surface-2);
+}
+
+.box-shadow p {
+  background-color: var(--color-primary);
+}
+
+/* LOGS SEARCH */
+
+label.input-with-icons{
+  background-color: var(--color-background);
+  border: none;
+  gap: 0.5em; 
+}
+
+label.input-with-icons svg{
+  color: var(--color-background);
+  background-color: var(--color-overlay-0);
+  border-radius: 50%;
+  padding: 0.1em;
+}
+
+input#logSearchBox{
+	background-color: var(--color-primary);
+	color: var(--color-font);
+	border: none;
+	border-color: var(--color-surface-2-7);
+	border-radius: 50px;
+}
+
+button#searchLogsClear{
+  color: var(--color-background);
+	background-color: var(--color-accent);
+	font-weight: 900;
+	border-radius: 15px;
+}
+
+button#searchLogsClear svg{
+  color: var(--color-background);
+	background-color: transparent;
+}
+
+button#searchLogsClear:hover, button#searchLogsClear:focus{
+  color: var(--color-primary);
+	background-color: var(--color-red);
+	font-weight: 900;
+	border-radius: 15px;
+  outline: none;
+}
+
+button#searchLogsClear:disabled{
+  color: var(--color-surface-2);
+	background-color: var(--color-background);
+	font-weight: 900;
+	border-radius: 15px;
+  border-color: var(--color-surface-2);
+}
+
+::placeholder{
+	color: transparent;
+}
+
+/* STATUS INFO */
+
+.action-failed {
+  color: var(--color-background);
+  background-color: var(--color-red);
+}
+
+.action-success {
+  color: var(--color-background);
+  background-color: var(--color-green);
+}
+
+.action-nonzero-exit {
+  color: var(--color-background);
+  background-color: var(--color-peach);
+}
+
+.action-timeout {
+  color: var(--color-background);
+  background-color: var(--color-sky);
+}
+
+.action-blocked {
+  color: var(--color-background);
+  background-color: var(--color-mauve);
+}
+
+span.tag {
+  color: var(--color-background);
+  background-color: var(--color-font);
+}
+
+/* USERNAME */
+
+#link-login > a {
+  color: var(--color-font);
+  text-decoration: none;
+  margin-bottom: 5px;
+}
+
+#link-login > a:hover {
+  color: var(--color-accent);
+}
+
+#link-login > a:focus {
+  color: var(--color-background);
+  background-color: var(--color-accent);
+  outline: 0;
+  border-radius: 2px;
+}
+
+#link-logout > a {
+  color: var(--color-font);
+  text-decoration: none;
+  margin-bottom: 5px;
+}
+
+#link-logout > a:hover {
+  color: var(--color-accent);
+}
+
+#link-logout > a:focus {
+  color: var(--color-background);
+  background-color: var(--color-accent);
+  outline: 0;
+  border-radius: 2px;
+}
+
+span#username {
+  color: var(--color-accent);
+  font-weight: 600;
+}
+
+div.userinfo{
+  color: var(--color-font);
+  font-size: medium;
+}
