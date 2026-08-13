@@ -1,19 +1,18 @@
 #!/bin/bash
 
-sleep 0.5
+sleep 0.3
 
 OUT="/etc/OliveTin/entities/serial_ports.yaml"
-TMP="${OUT}.tmp"
 
-{
-    for dev in /dev/ttyUSB* /dev/ttyACM*; do
-        [ -e "$dev" ] || continue
+content=""
 
-        name=$(basename "$dev")
+for dev in /dev/ttyUSB* /dev/ttyACM*; do
+    [ -e "$dev" ] || continue
 
-        echo "- name: $name"
-        echo "  device: $dev"
-    done
-} > "$TMP"
+    name=$(basename "$dev")
 
-mv "$TMP" "$OUT"
+    printf -v entry -- '- name: %s\n  device: %s\n' "$name" "$dev"
+    content+="$entry"
+done
+
+printf '%s' "$content" > "$OUT"
