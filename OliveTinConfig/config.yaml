@@ -36,6 +36,7 @@ actions:
     onclick: execution-dialog
 
 
+  
   # Lots of people also use OliveTin to monitor their servers, like checking
   # disk space, or checking logs. `onclick: execution-dialog` shows output.
   - title: Check disk space
@@ -87,8 +88,6 @@ actions:
         default: 3
         description: How many times to do you want to ping?
   
-
-
   # Sometimes you want to run actions on other servers - don't overcomplicate
   # it, just use SSH! OliveTin includes a helper to make this easier, which is
   # entirely optional. You can also setup SSH manually.
@@ -147,15 +146,19 @@ actions:
     shell: killall  esp_rfc2217_server ; killall ser2net
     icon: '<img src = "custom-webui/icons/disconnected.png" />'
 
+
 entities:
-  - file: /etc/OliveTin/entities/serial_ports.yaml
+  - file: entities/serial_ports.yaml
     name: serial_port
+    icon: '<img src="custom-webui/icons/connected.png" />'
     properties:
       - name: name
         title: Port
       - name: device
         title: Device
 
+  - file: entities/dummy.json
+    name: dummy
 
 # Docs: https://docs.olivetin.app/dashboards/intro.html
 dashboards:
