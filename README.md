@@ -28,6 +28,7 @@ An optional SPI TFT display can show connection state, IP addresses, SSID, and R
 4. [Optional SPI TFT display](docs/04-tft-display.md): enable an ST7735 display and install the status-display service.
 5. [RFC2217 serial service](docs/05-rfc2217.md): install `esptool`, expose a USB serial port, and connect from a remote workstation.
 6. [OliveTin dashboard](docs/06-olivetin.md): install and configure the web launcher used to control services and network actions.
+7. [Physical GPIO buttons](docs/07-gpio-buttons.md): configure the GPIO Buttons Manager to execute scripts or actions pressing 2 physical buttons connected to GPIO 
 
 ## Scope and Security
 
@@ -46,3 +47,5 @@ Telegram credentials, Wi-Fi credentials, target serial devices, interface names,
 - add commands to Telegram Bot to start/stop services and scripts
 - more tests on serial debugging
 - design and print a case 
+- create scripts called by button_manager service, to reboot esp32 or other usefull actions
+- Display PowerOff in TFT Display and notify via telegram

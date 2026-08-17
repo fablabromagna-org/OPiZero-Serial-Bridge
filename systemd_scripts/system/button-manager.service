@@ -1,0 +1,15 @@
+[Unit]
+Description=GPIO Button Manager
+After=multi-user.target
+
+[Service]
+Type=simple
+WorkingDirectory=/opt/custom-scripts
+ExecStart=/opt/custom-env/bin/python3 /opt/custom-scripts/button_manager.py
+Restart=on-failure
+RestartSec=2
+User=root
+
+[Install]
+WantedBy=multi-user.target
+

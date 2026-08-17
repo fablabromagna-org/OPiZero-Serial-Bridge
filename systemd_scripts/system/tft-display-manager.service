@@ -1,0 +1,17 @@
+[Unit]
+Description=SBC Display Manager 
+After=network.target 
+Wants=network.target 
+
+[Service] 
+Type=simple 
+WorkingDirectory=/opt/custom-scripts 
+ExecStart=/opt/custom-env/bin/python3 /opt/custom-scripts/display_manager.py
+Restart=on-failure 
+RestartSec=5 
+StandardOutput=journal 
+StandardError=journal 
+
+[Install] 
+WantedBy=multi-user.target
+
