@@ -42,6 +42,13 @@ serial = spi(
     bus_speed_hz=8000000
 )
 
+class NoBacklight:
+    def __call__(self, value):
+        pass
+
+    def cleanup(self):
+        pass
+
 device = st7735(
     serial,
     width=160,
@@ -49,7 +56,7 @@ device = st7735(
     rotate=0,
     bgr=True,
     gpio=GPIO,
-    backlight=None
+    backlight=NoBacklight()
 )
 
 font = ImageFont.load_default()
