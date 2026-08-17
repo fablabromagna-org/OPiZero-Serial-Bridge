@@ -1,0 +1,30 @@
+#!/bin/bash
+
+STATE_DIR=/run/sbc-serial-bridge/network-state
+INTERFACE="$1"
+EVENT="$2"
+
+case "$EVENT" in
+  up)
+    IP=$(printf '%s\n' "$IP4_ADDRESS_0" | cut -d' ' -f1 | cut -d'/' -f1)
+
+    mkdir -p "$STATE_DIR"
+    printf '%s\n' "$IP" > "$STATE_DIR/ip"
+    printf '%s\n' "$INTERFACE" > "$STATE_DIR/interface"
+    printf '%s\n' "${CONNECTION_ID:-n/a}" > "$STATE_DIR/connection"
+    date -Iseconds > "$STATE_DIR/timestamp"
+
+    telegram-send "Network updated
+Host: $(hostname)
+Interface: $INTERFACE
+Event: $EVENT
+Wi-Fi: ${CONNECTION_ID:-n/a}
+
+Dashboard: http://$IP:1337"
+    ;;
+  down)
+    telegram-send "Interface disconnected
+Host: $(hostname)
+Interface: $INTERFACE"
+    ;;
+esac

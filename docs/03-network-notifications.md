@@ -16,23 +16,32 @@ Do not commit the generated Telegram configuration or bot token to this reposito
 
 ## Install the Dispatcher
 
-Create `/etc/NetworkManager/dispatcher.d/90-telegram-network` with the following content:
+The repository provides the dispatcher as `custom-scripts/90-telegram-network`. Install it in the directory monitored by NetworkManager:
+
+```bash
+install -m 700 custom-scripts/90-telegram-network \
+  /etc/NetworkManager/dispatcher.d/90-telegram-network
+chown root:root /etc/NetworkManager/dispatcher.d/90-telegram-network
+```
+
+The installed script contains the following configuration:
 
 ```bash
 #!/bin/bash
 
 INTERFACE="$1"
 EVENT="$2"
+STATE_DIR=/run/sbc-serial-bridge/network-state
 
 case "$EVENT" in
   up)
     IP=$(printf '%s\n' "$IP4_ADDRESS_0" | cut -d' ' -f1 | cut -d'/' -f1)
 
-    mkdir -p /run/network-state
-    printf '%s\n' "$IP" > /run/network-state/ip
-    printf '%s\n' "$INTERFACE" > /run/network-state/interface
-    printf '%s\n' "${CONNECTION_ID:-n/a}" > /run/network-state/connection
-    date -Iseconds > /run/network-state/timestamp
+    mkdir -p "$STATE_DIR"
+    printf '%s\n' "$IP" > "$STATE_DIR/ip"
+    printf '%s\n' "$INTERFACE" > "$STATE_DIR/interface"
+    printf '%s\n' "${CONNECTION_ID:-n/a}" > "$STATE_DIR/connection"
+    date -Iseconds > "$STATE_DIR/timestamp"
 
     telegram-send "Network updated
 Host: $(hostname)
@@ -50,17 +59,10 @@ Interface: $INTERFACE"
 esac
 ```
 
-Set restrictive ownership and permissions:
-
-```bash
-chmod 700 /etc/NetworkManager/dispatcher.d/90-telegram-network
-chown root:root /etc/NetworkManager/dispatcher.d/90-telegram-network
-```
-
 The script is intentionally installed in NetworkManager's dispatcher directory rather than `custom-scripts/`, because NetworkManager executes dispatchers only from this path.
 
 ## Notes
 
-The dispatcher receives events only for interfaces managed by NetworkManager. In the reference system, it manages Wi-Fi but not Ethernet. The `/run/network-state` directory is volatile and is recreated after each boot or successful `up` event.
+The dispatcher receives events only for interfaces managed by NetworkManager. In the reference system, it manages Wi-Fi but not Ethernet. The `/run/sbc-serial-bridge/network-state` directory is volatile and is recreated after each boot or successful `up` event.
 
 The dashboard URL uses HTTP in this example. Enable HTTPS or restrict network access before using it beyond a trusted LAN.

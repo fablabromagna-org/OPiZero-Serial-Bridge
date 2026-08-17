@@ -21,13 +21,13 @@ pageTitle: OrangePi-Zero
 actions:
   - title: Disconnect WiFi
     id: wifi_disconnect
-    shell: nmcli connection down $(cat /run/network-state/connection   2>/dev/null)
+    shell: nmcli connection down $(cat /run/sbc-serial-bridge/network-state/connection 2>/dev/null)
     icon: '<img src = "custom-webui/icons/wifi_disconnect.png" />'
     onclick: execution-dialog
   
   - title: Disconnect and forget WiFi
     id: wifi_delete
-    shell: nmcli connection delete $(cat /run/network-state/connection   2>/dev/null)
+    shell: nmcli connection delete $(cat /run/sbc-serial-bridge/network-state/connection 2>/dev/null)
     icon: '<img src = "custom-webui/icons/wifi_disconnect.png" />'
     justification: " "
     arguments:
@@ -244,5 +244,4 @@ accessControlLists:
       view: true
       exec: true
       logs: true
-
 

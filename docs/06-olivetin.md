@@ -77,7 +77,7 @@ journalctl -u OliveTin -n 50 --no-pager
 
 ## Action Dependencies
 
-`Disconnect WiFi` and `Disconnect and forget WiFi` require `/run/network-state/connection`, created by the NetworkManager dispatcher after a successful connection. The runtime directory is cleared at boot, so these actions are unavailable until NetworkManager raises a subsequent `up` event.
+`Disconnect WiFi` and `Disconnect and forget WiFi` require `/run/sbc-serial-bridge/network-state/connection`, created by the NetworkManager dispatcher after a successful connection. The runtime directory is cleared at boot, so these actions are unavailable until NetworkManager raises a subsequent `up` event.
 
 `Start RFC2217 Server` requires `esptool` to be installed in `/opt/custom-env`; follow [RFC2217 Serial Service](05-rfc2217.md). The selectable values are limited to known `ttyUSB` and `ttyACM` device names., avoiding arbitrary device-path input. Add or remove choices to match the SBC hardware.
 
@@ -99,4 +99,3 @@ Before exposing OliveTin beyond a trusted LAN, require login, define at least on
 - refresh entities seems not working.
 - Add login auth 
 - Multiple servers on multiple ports?
-

@@ -81,7 +81,7 @@ journalctl -u button-manager.service -f
 
 ## Shutdown Notification
 
-The P2 long-press action runs `shutdown.sh`. It writes `System shutdown requested` to `/run/opizero-serial-bridge/display-notice`, sends the same notification through `telegram-send` when configured, waits three seconds, then invokes `systemctl poweroff`.
+The P2 long-press action runs `shutdown.sh`. It writes `System shutdown requested` to `/run/sbc-serial-bridge/display-notice`, sends the same notification through `telegram-send` when configured, waits three seconds, then invokes `systemctl poweroff`.
 
 Ensure the `telegram-send` configuration is available to `root`, because `button-manager.service` runs as `root`. 
 

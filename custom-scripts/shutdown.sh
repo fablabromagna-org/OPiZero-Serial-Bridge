@@ -1,7 +1,7 @@
 #!/bin/bash
 
 # Notify local services before requesting a controlled system shutdown.
-STATE_DIR=/run/opizero-serial-bridge
+STATE_DIR=/run/sbc-serial-bridge
 DISPLAY_NOTICE="$STATE_DIR/display-notice"
 MESSAGE="System shutdown requested"
 
