@@ -45,12 +45,12 @@ Telegram credentials, Wi-Fi credentials, target serial devices, interface names,
 ## TODO
 
 - better OliveTin configurations
-- display more info on TFT Display
-- add a physical button to reset WiFi connection and return in AP mode
-- add a physical button to shutdown the system 
+- ~~display more info on TFT Display~~
+- ~~add a physical button to reset WiFi connection and return in AP mode~~
+- ~~add a physical button to shutdown the system~~
 - more notifications via Telegram Bot
 - add commands to Telegram Bot to start/stop services and scripts
 - more tests on serial debugging
 - design and print a case 
 - create scripts called by button_manager service, to reboot esp32 or other usefull actions
-- Display PowerOff in TFT Display and notify via telegram
+- ~~Display PowerOff in TFT Display and notify via telegram~~
