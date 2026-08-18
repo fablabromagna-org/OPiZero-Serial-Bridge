@@ -6,6 +6,11 @@ The system is intended for remote flashing and serial debugging of Espressif MCU
 
 ![Headless SBC remote serial controller](docs/image1.jpg)
 
+## Hardware Design
+
+- [KiCad project](kicad/opizero/)
+- [Schematic PDF](kicad/opizero/schema.pdf)
+
 ## Architecture
 
 The SBC exposes a locally attached USB serial device over the network through an RFC2217 server. Wi-Fi onboarding is performed through a temporary access point and captive portal. Once connected, the SBC reports its DHCP address through Telegram. OliveTin optionally provides a web interface to start the RFC2217 server without SSH.
