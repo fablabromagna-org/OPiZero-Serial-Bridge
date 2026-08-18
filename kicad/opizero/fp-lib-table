@@ -1,0 +1,5 @@
+(fp_lib_table
+	(version 7)
+	(lib (name "orangepi-zero") (type "KiCad") (uri "/srv/shared/software-projects-free/sbc/opizero_headless/kicad/opizero/libs/orangepi-zero.pretty") (options "") (descr ""))
+	(lib (name "orangepi-zero") (type "KiCad") (uri "/srv/shared/software-projects-free/sbc/opizero_headless/kicad/opizero/libs/orangepi-zero.pretty") (options "") (descr ""))
+)

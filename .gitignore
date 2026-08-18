@@ -2,4 +2,7 @@
 *.OLD
 *.NEW
 entities/
+*.zip
+*.bak
+
 
