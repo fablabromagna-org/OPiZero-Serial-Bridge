@@ -2,11 +2,13 @@
 
 # Notify local services before requesting a controlled system shutdown.
 STATE_DIR=/run/sbc-serial-bridge
-DISPLAY_NOTICE="$STATE_DIR/display-notice"
-MESSAGE="System shutdown requested"
+DISPLAY_EVENT="$STATE_DIR/display-event"
+EVENT_ID=SHUTDOWN_PROGRESS
+MESSAGE="System shutdown in progress"
 
 mkdir -p "$STATE_DIR"
-printf '%s\n' "$MESSAGE" > "$DISPLAY_NOTICE"
+printf '%s\n' "$EVENT_ID" > "$DISPLAY_EVENT.$$"
+mv -f "$DISPLAY_EVENT.$$" "$DISPLAY_EVENT"
 logger -t shutdown-script "$MESSAGE"
 
 if command -v telegram-send >/dev/null 2>&1; then

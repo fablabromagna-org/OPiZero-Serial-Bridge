@@ -81,8 +81,8 @@ journalctl -u button-manager.service -f
 
 ## Shutdown Notification
 
-The P2 long-press action runs `shutdown.sh`. It writes `System shutdown requested` to `/run/sbc-serial-bridge/display-notice`, sends the same notification through `telegram-send` when configured, waits three seconds, then invokes `systemctl poweroff`.
+The P2 long-press action runs `shutdown.sh`. It atomically writes the `SHUTDOWN_PROGRESS` event ID to `/run/sbc-serial-bridge/display-event`, sends a Telegram notification when configured, waits three seconds, then invokes `systemctl poweroff`.
 
 Ensure the `telegram-send` configuration is available to `root`, because `button-manager.service` runs as `root`. 
 
-The display manager can use the runtime notice file to show a shutdown message on the optional TFT display.
+The display manager shows `SHUTDOWN_PROGRESS` as a persistent shutdown screen, then clears the display and turns off the backlight when systemd stops the service.

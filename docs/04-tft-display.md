@@ -8,7 +8,7 @@ The reference display is a 128x160 ST7735 module wired to the Orange Pi Zero as 
 
 | Display pin | Orange Pi pin | GPIO |
 | --- | --- | --- |
-| BL | 1 or 17 | 3V3 |
+| BL | 26 | PA10 through BC557B |
 | CS | 24 | PA13 |
 | DC | 15 | PA3 |
 | RESET | 22 | PA2 |
@@ -18,6 +18,15 @@ The reference display is a 128x160 ST7735 module wired to the Orange Pi Zero as 
 | GND | 20 or 25 | GND |
 
 Use 3.3 V logic and power. Verify the pinout for the specific SBC revision before connecting hardware.
+
+## Backlight Control
+
+The backlight is controlled through PA10 on physical pin 26. Do not connect `BL` directly to the GPIO: use a BC557B PNP transistor as a high-side switch.
+
+See KiCAD directory for schema.
+
+The display manager uses `GPIO.BOARD` numbering and initializes pin 26 as an active-low backlight output. The backlight turns on when PA10 is low and turns off when PA10 is high or released.
+
 
 ## Enable SPI
 
@@ -54,6 +63,14 @@ install -m 755 custom-scripts/display_manager.py /opt/custom-scripts/display_man
 ```
 
 Before starting it, edit `/opt/custom-scripts/display_manager.py` if interface names, SPI bus, chip-select, GPIO pins, or display orientation differ from the reference hardware.
+
+## Display Events
+
+Local scripts can show a temporary or persistent message by writing an event ID to `/run/sbc-serial-bridge/display-event`. The display manager polls this file every 200 ms and renders known events as a full-screen overlay.
+
+Events are configured in the `DISPLAY_EVENTS` dictionary. Each event defines display lines and a timeout in seconds. A timeout of `0` remains active until the event file is removed or replaced; a positive timeout returns to the normal status screen after it expires.
+
+The current event is `SHUTDOWN_PROGRESS`, which is written by `shutdown.sh` before system shutdown. The manager intercepts `SIGTERM`, clears the display, and turns off the PA10-controlled backlight during service shutdown.
 
 ## systemd Service
 

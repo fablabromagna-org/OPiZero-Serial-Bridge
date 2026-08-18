@@ -8,8 +8,10 @@
 
 
 
-import time
 import subprocess
+import os
+import signal
+import time
 
 import OPi.GPIO as GPIO
 
@@ -22,12 +24,39 @@ from PIL import Image, ImageDraw, ImageFont
 ETH_IFACE = "end0"
 WLAN_IFACE = "wlan0"
 RFC2217_PROCESS = "esp_rfc2217_server"
+DISPLAY_EVENT_FILE = "/run/sbc-serial-bridge/display-event"
 
 NETWORK_UPDATE_INTERVAL = 5.0
 DISPLAY_UPDATE_INTERVAL = 0.05
+DISPLAY_EVENT_UPDATE_INTERVAL = 0.2
 
 SCROLL_SPEED = 1
 SCROLL_GAP = 25
+
+DISPLAY_EVENTS = {
+    "SHUTDOWN_PROGRESS": {
+        "lines": (
+            "SYSTEM SHUTDOWN",
+            "IN PROGRESS...",
+        ),
+        "timeout": 0,
+    },
+    "WIFI_RESET": {
+        "lines": (
+            "Reset WiFi",
+            "Activate AP mode",
+        ),
+        "timeout": 3,
+    },
+    "DUMMY": {
+        "lines": (
+            "Dummy command",
+            "just for test",
+        ),
+        "timeout": 3,
+    },
+
+}
 
 
 # GPIO / display setup
@@ -42,13 +71,6 @@ serial = spi(
     bus_speed_hz=8000000
 )
 
-class NoBacklight:
-    def __call__(self, value):
-        pass
-
-    def cleanup(self):
-        pass
-
 device = st7735(
     serial,
     width=160,
@@ -56,7 +78,8 @@ device = st7735(
     rotate=0,
     bgr=True,
     gpio=GPIO,
-    backlight=NoBacklight()
+    gpio_LIGHT=26,
+    active_low=True
 )
 
 font = ImageFont.load_default()
@@ -143,6 +166,37 @@ def get_text_width(draw, text):
     return bbox[2] - bbox[0]
 
 
+def get_display_event():
+    """Return the current event ID and the file modification time."""
+
+    try:
+        event_stat = os.stat(DISPLAY_EVENT_FILE)
+
+        with open(DISPLAY_EVENT_FILE, encoding="ascii") as event_file:
+            return event_file.read().strip(), event_stat.st_mtime
+
+    except OSError:
+        return "", 0
+
+
+def is_display_event_active(event_id, event_mtime):
+    """Return True if the configured display event has not expired."""
+
+    event = DISPLAY_EVENTS.get(event_id)
+
+    if not event:
+        return False
+
+    timeout = event["timeout"]
+    return timeout == 0 or time.time() - event_mtime < timeout
+
+
+def terminate(signum, frame):
+    """Exit through the cleanup path when systemd stops the service."""
+
+    raise SystemExit(0)
+
+
 eth_ip = "n/a"
 wlan_ip = "n/a"
 essid = "n/a"
@@ -150,12 +204,21 @@ rfc2217_running = False
 
 scroll_x = 0
 last_network_update = 0
+display_event_id = ""
+display_event_mtime = 0
+last_display_event_update = 0
+
+signal.signal(signal.SIGTERM, terminate)
 
 
 try:
     while True:
 
         now = time.monotonic()
+
+        if now - last_display_event_update >= DISPLAY_EVENT_UPDATE_INTERVAL:
+            display_event_id, display_event_mtime = get_display_event()
+            last_display_event_update = now
 
         # Refresh network information at a lower rate than the display.
         if now - last_network_update >= NETWORK_UPDATE_INTERVAL:
@@ -187,6 +250,20 @@ try:
             (0, 0, device.width - 1, device.height - 1),
             outline="white"
         )
+
+        if is_display_event_active(display_event_id, display_event_mtime):
+            event_lines = DISPLAY_EVENTS[display_event_id]["lines"]
+            text_height = 12
+            first_line_y = (device.height - len(event_lines) * text_height) // 2
+
+            for index, line in enumerate(event_lines):
+                line_x = (device.width - get_text_width(draw, line)) // 2
+                line_y = first_line_y + index * text_height
+                draw.text((line_x, line_y), line, fill="white", font=font)
+
+            device.display(image)
+            time.sleep(DISPLAY_UPDATE_INTERVAL)
+            continue
 
         draw.text(
             (5, 5),
@@ -319,5 +396,10 @@ finally:
     except Exception:
         pass
 
-    GPIO.cleanup()
+    try:
+        device.backlight(False)
+        device.cleanup()
+    except Exception:
+        pass
 
+    GPIO.cleanup()
